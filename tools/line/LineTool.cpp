@@ -3,7 +3,7 @@
 #include <QImage>
 #include <iostream>
 
-LineTool::LineTool(QImage* img, QImage* previewLayer, QColor selected_color, int lineWidthRadius) : selectedLayer(img), toolPreviewLayer(previewLayer), color(selected_color), radius(lineWidthRadius) {
+LineTool::LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color, int lineWidthRadius) : selectedLayer(img), pendingLayer(pendingLayer), toolPreviewLayer(previewLayer), color(selected_color), radius(lineWidthRadius) {
 }
 
 void LineTool::press(int x, int y){
@@ -29,7 +29,9 @@ void LineTool::release(int x, int y){
     endingX = x;
     endingY = y;
     toolPreviewLayer->fill(Qt::transparent);
-    safeDrawLineBetween(selectedLayer, color, radius, startingX, startingY, endingX, endingY);
+    safeDrawLineBetween(pendingLayer, color, radius, startingX, startingY, endingX, endingY);
+    applyLayer(selectedLayer, pendingLayer);
+    pendingLayer->fill(Qt::transparent);
 }
 
 void LineTool::cancel(){

@@ -20,7 +20,9 @@ MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
     startY = 50;
 
     img = new QImage(width,height,QImage::Format_ARGB32);
+    img->fill(Qt::white);
     toolPreviewLayer = new QImage(width,height,QImage::Format_ARGB32);
+    toolAlphaLayer = new QImage(width,height,QImage::Format_ARGB32);
 
     currentTool = nullptr;
     lastSelectedTool = TOOL::NotSet;
@@ -85,12 +87,14 @@ MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
 MyWindow::~MyWindow(){
     delete img;
     delete currentTool;
+    delete toolAlphaLayer;
     delete toolPreviewLayer;
 }
 
 void MyWindow::paintEvent(QPaintEvent*){
     QPainter p(this);
     p.drawImage(startX,startY,*img);
+    p.drawImage(startX,startY,*toolAlphaLayer);
     p.drawImage(startX,startY,*toolPreviewLayer);
 }
 
@@ -101,11 +105,11 @@ void MyWindow::slot_clean(){
 }
 
 void MyWindow::clean(){
-    for(int y=0; y<height; y++) for(int x=0; x<width; x++) setColor(QColor(255,255,255,0), img->bits(), width, x, y); // BREAD!
+    for(int y=0; y<height; y++) for(int x=0; x<width; x++) setColor(QColor(255,255,255,255), img->bits(), width, x, y); // BREAD!
 }
 
 void MyWindow::mousePressEvent(QMouseEvent *event){
-    currentColor = QColor(colorRedPicker->slider->value(), colorGreenPicker->slider->value(), colorBluePicker->slider->value());
+    currentColor = QColor(colorRedPicker->slider->value(), colorGreenPicker->slider->value(), colorBluePicker->slider->value(), colorAlphaPicker->slider->value());
     if(lastSelectedTool == TOOL::NotSet && !currentTool)return;
     if(!currentTool)reenableTool();
     if(currentTool)currentTool->press(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
@@ -126,21 +130,22 @@ void MyWindow::mouseReleaseEvent(QMouseEvent *event){
 
 void MyWindow::slot_shape(){
     if(currentTool)delete currentTool;
-    currentTool = new LineTool(img, toolPreviewLayer, QColor(currentColor.red(), currentColor.green(), currentColor.blue()), radiousPicker->slider->value());
+    currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, currentColor, radiousPicker->slider->value());
     lastSelectedTool = TOOL::Line;
 }
 
 void MyWindow::slot_draw(){
     if(currentTool)delete currentTool;
-    currentColor = QColor(colorRedPicker->slider->value(), colorGreenPicker->slider->value(), colorBluePicker->slider->value());
-    currentTool = new PenTool(img, radiousPicker->slider->value(), QColor(currentColor.red(), currentColor.green(), currentColor.blue()));
+    currentColor = QColor(colorRedPicker->slider->value(), colorGreenPicker->slider->value(), colorBluePicker->slider->value(), colorAlphaPicker->slider->value());
+    currentTool = new PenTool(img, toolAlphaLayer, radiousPicker->slider->value(), currentColor);
     lastSelectedTool = TOOL::Pen;
 }
 
 void MyWindow::slot_fill(){
+    std::cout << "Bucket tool selected" << std::endl;
     if(currentTool)delete currentTool;
-    currentColor = QColor(colorRedPicker->slider->value(), colorGreenPicker->slider->value(), colorBluePicker->slider->value());
-    currentTool = new FillTool(img, currentColor);
+    currentColor = QColor(colorRedPicker->slider->value(), colorGreenPicker->slider->value(), colorBluePicker->slider->value(), colorAlphaPicker->slider->value());
+    currentTool = new FillTool(img, toolAlphaLayer, currentColor);
     lastSelectedTool = TOOL::Bucket;
 }
 
@@ -154,7 +159,7 @@ void MyWindow::slot_special(){
 
 void MyWindow::reenableTool(){
     if(currentTool)delete currentTool;
-    if(lastSelectedTool==TOOL::Pen)currentTool = new PenTool(img, radiousPicker->slider->value(), currentColor);
-    if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolPreviewLayer, currentColor, radiousPicker->slider->value());
-    if(lastSelectedTool==TOOL::Bucket)currentTool = new FillTool(img, currentColor);
+    if(lastSelectedTool==TOOL::Pen)currentTool = new PenTool(img, toolAlphaLayer, radiousPicker->slider->value(), currentColor);
+    if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, currentColor, radiousPicker->slider->value());
+    if(lastSelectedTool==TOOL::Bucket)currentTool = new FillTool(img, toolAlphaLayer, currentColor);
 }

@@ -39,6 +39,7 @@ void setColor(QColor color, QImage* img, int x, int y);
 void safeSetColor(QColor color, QImage* img, int x, int y);
 void safeSetColor(QColor color, unsigned char* ptr, int width, int height, int x, int y);
 void safeSetColor(QColor color, unsigned char* ptr, int width, int height, int colorPosition);
+void setColorWAA(QColor color, unsigned char* ptr, int width, int x, int y);//WithAlphaAccomodations.
 
 bool isColor(QImage* layer, QColor color, int x, int y);
 bool isColor(unsigned char* ptr, QColor color, int width, int x, int y);
@@ -66,10 +67,12 @@ void stamp(unsigned char* ptr, int width, QColor color, int radius, int cx, int 
 void safeStamp(QImage* layer, QColor color, int radius, int cx, int cy);
 void safeStamp(unsigned char* ptr, int width, QColor color, int radius, int cx, int cy);
 
-void globalFloodFill(QImage* layer, QColor repaintColor, int sx, int sy, int tolerance = 0);
-void floodFill(QImage* layer, QColor repaintColor, int sx, int sy, int tolerance = 0);
+void globalFloodFill(QImage* layer, QImage* transLayer, QColor repaintColor, int sx, int sy, int tolerance = 0);
+void floodFill(QImage* layer, QImage* transLayer, QColor repaintColor, int sx, int sy, int tolerance = 0);
 
 int cursorOffset(int offset, int coordinate);
+
+void applyLayer(QImage* paintedLayer, QImage* sourcesLayer);
 
 void LineTypeDebug(LINETYPE t);
 #endif // TOOLFUNCTIONS_H

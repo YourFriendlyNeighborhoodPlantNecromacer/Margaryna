@@ -9,12 +9,13 @@
 class FillTool : public Tool{
 public:
     QImage *selectedLayer;
+    QImage *pendingLayer;
     QColor color;
     int tolerance;
     bool isGlobal;
     bool active = false;
 
-    FillTool(QImage* img, QColor selected_color = QColor(0, 0, 0), int colorOffsetTolerance=0, bool global=false);
+    FillTool(QImage* img, QImage* pendingLayer, QColor selected_color = QColor(0, 0, 0), int colorOffsetTolerance=0, bool global=false);
 
     void press(int x, int y) override;
     void move(int x, int y) override;

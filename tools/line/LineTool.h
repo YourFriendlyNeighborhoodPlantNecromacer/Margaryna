@@ -7,6 +7,7 @@
 class LineTool : public Tool{
 public:
     QImage* selectedLayer;
+    QImage* pendingLayer;
     QImage* toolPreviewLayer;
     QColor color;
     bool active = false;
@@ -16,7 +17,7 @@ public:
     int endingX;
     int endingY;
 
-    LineTool(QImage* img, QImage* previewLayer, QColor selected_color = QColor(0, 0, 0), int lineWidthRadius = 3);
+    LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color = QColor(0, 0, 0), int lineWidthRadius = 3);
 
     void press(int x, int y) override;
     void move(int x, int y) override;

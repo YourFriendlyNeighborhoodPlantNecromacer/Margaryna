@@ -52,6 +52,7 @@ public:
 
 private:
     QImage *img;
+    QImage *toolAlphaLayer;
     QImage *toolPreviewLayer;
 
     QPushButton *cleanButton;

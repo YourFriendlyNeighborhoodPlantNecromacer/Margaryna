@@ -55,16 +55,13 @@ bool isAreaInBounds(QImage* img, int x, int y, int left, int right, int up, int 
 
 
 void setColor(QColor color, unsigned char* ptr, int width, int x, int y){
-    //std::cout << "C" << std::endl;
     ptr[width*4*y + 4*x + 0] = color.blue();
     ptr[width*4*y + 4*x + 1] = color.green();
     ptr[width*4*y + 4*x + 2] = color.red();
     ptr[width*4*y + 4*x + 3] = color.alpha();
-    //std::cout << "D" << std::endl;
 }
 
 void setColor(QColor color, QImage* img, int x, int y){
-    //std::cout << "B" << std::endl;
     setColor(color, img->bits(), img->width(), x, y);
 }
 
@@ -247,12 +244,13 @@ double argumentForValue(double a, double b, int y){
 }
 
 
-void globalFloodFill(QImage* layer, QColor repaintColor, int sx, int sy, int tolerance){
-    QColor targetColor = getColor(layer, sx, sy);
-    for(int y=0; y<layer->height();y++)for(int x=0; x<layer->width();x++) if(getColor(layer, x, y) == targetColor)setColor(repaintColor, layer, x, y);
+void globalFloodFill(QImage* currentLayer, QImage* pendingLayer, QColor repaintColor, int sx, int sy, int tolerance){
+    QColor targetColor = getColor(currentLayer, 0, 0);
+    for(int y=0; y<currentLayer->height();y++)for(int x=0; x<currentLayer->width();x++)
+            if(getColor(currentLayer, x, y) == targetColor)setColor(repaintColor, pendingLayer, x, y);
 }
 
-void floodFill(QImage* layer, QColor repaintColor, int sx, int sy, int tolerance){
+void floodFill(QImage* layer, QImage* alpha, QColor repaintColor, int sx, int sy, int tolerance){
     QColor targetColor = getColor(layer, sx, sy);
     if(targetColor==repaintColor)return;
     std::stack<int> a;
@@ -272,7 +270,7 @@ void floodFill(QImage* layer, QColor repaintColor, int sx, int sy, int tolerance
         a.pop();
 
         if(!isInBounds(layer, x, y))continue;
-        setColor(repaintColor,layer,x,y);
+        setColor(repaintColor,alpha,x,y);
 
         if(x-1>=0)if(!visited[currentNode-1] && getColor(layer,x-1,y)==targetColor){
                 a.push(currentNode-1);
@@ -299,6 +297,25 @@ int cursorOffset(int offset, int coordinate){
 }
 
 
+int help(double canvasValue, double colorVal, double alpha){
+    int val=canvasValue*(255-alpha)/255 + colorVal*alpha/255;
+    if(val>255)return 255;
+    if(val<0) return 0;
+    return val;
+}
+
+void applyLayer(QImage* currentLayer, QImage* pendingLayer){
+    int width = currentLayer->width();
+    int height = currentLayer->height();
+    unsigned char* rPtr = currentLayer->bits();
+    unsigned char* sPtr = pendingLayer->bits();
+    for(int y=0;y<height;y++)for(int x=0;x<width;x++)if(sPtr[width*y*4+x*4+3]!=0)for(int c=0;c<3;c++){
+                    rPtr[width*y*4+x*4+c]=help(rPtr[width*y*4+x*4+c],sPtr[width*y*4+x*4+c],sPtr[width*y*4+x*4+3]);
+    }
+}
+
+
+
 
 void LineTypeDebug(LINETYPE t){
     std::cout << "Line type:";
@@ -308,3 +325,4 @@ void LineTypeDebug(LINETYPE t){
     if(t==LINETYPE::FLAT) std::cout << "FLAT" << std::endl;
     if(t==LINETYPE::STEEP) std::cout << "STEEP" << std::endl;
 }
+
