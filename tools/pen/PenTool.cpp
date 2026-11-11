@@ -2,7 +2,7 @@
 #include <QColor>
 #include "PenTool.h"
 #include "../ToolFunctions.h"
-#include <iostream>
+//#include <iostream>
 
 PenTool::PenTool(QImage* img, QImage* pendingLayer, int penRadius, QColor selected_color) : selectedLayer(img), pendingLayer(pendingLayer), color(selected_color), radius(penRadius) {
     active = false;

@@ -1,6 +1,6 @@
 #include "FillTool.h"
 #include "../ToolFunctions.h"
-#include <iostream>
+//#include <iostream>
 
 FillTool::FillTool(QImage* img, QImage* pendingLayer, QColor selected_color, int colorOffsetTolerance, bool global) : selectedLayer(img), pendingLayer(pendingLayer), color(selected_color), tolerance(colorOffsetTolerance), isGlobal(global){}
 

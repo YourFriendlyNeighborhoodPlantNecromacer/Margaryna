@@ -6,8 +6,7 @@
 
 class Tool{
 public:
-    int maxX;
-    int maxY;
+
     Tool() = default;
     virtual ~Tool() = default;
     virtual void press(int x, int y) = 0;

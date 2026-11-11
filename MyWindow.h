@@ -7,8 +7,10 @@
 #include <QMouseEvent>
 #include <QSlider>
 #include <tools/Tool.h>
-#include "tools/pen/PenToolSettings.h"
-#include "widgets/LabeledSlider.h"
+#include "widgets/AppSettings/AppSettings.h"
+#include "widgets/ToolTab/ToolTab.h"
+#include "widgets/ToolSettings/ToolSettings.h"
+#include "widgets/LabeledSlider/LabeledSlider.h"
 
 enum TOOLMODE{
     Unselected,
@@ -55,36 +57,13 @@ private:
     QImage *toolAlphaLayer;
     QImage *toolPreviewLayer;
 
-    QPushButton *cleanButton;
-    QPushButton *exitButton;
-    QGroupBox *appSettings;
-
-    QPushButton *shapeButton;
-    QPushButton *drawButton;
-    QPushButton *fillButton;
-    QPushButton *selectButton;
-    QPushButton *specialButton;
-    QGroupBox *toolGroup;
+    AppSettings* appSettings;
+    ToolSettings* toolSettings;
+    ToolTab* toolTab;
 
     Tool* currentTool;
-    TOOL lastSelectedTool = TOOL::NotSet;
+    TOOL lastSelectedTool;
 
-    QVBoxLayout *boxLayout;
-    QHBoxLayout *toolBoxLayout;
-
-    QHBoxLayout* sliderBox;
-    LabeledSlider* colorRedPicker;
-    LabeledSlider* colorGreenPicker;
-    LabeledSlider* colorBluePicker;
-    LabeledSlider* colorAlphaPicker;
-    LabeledSlider* radiousPicker;
-
-    QGroupBox *toolSettings;
-    //PenToolSettings penSettings;
-
-
-    QColor currentColor;
-    int radious;
 
     int width;
     int height;
@@ -101,8 +80,8 @@ private:
 private slots:
     void slot_clean();
     void slot_shape();
-    void slot_draw();
     void slot_fill();
+    void slot_draw();
     void slot_select();
     void slot_special();
     void mousePressEvent(QMouseEvent *event);

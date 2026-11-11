@@ -13,17 +13,6 @@ enum LINETYPE{
 #include <QImage>
 
 
-// is pixel in bounds
-// is area (circle) in bounds
-// is area (box) in bounds
-// is area (formless) in bounds
-//
-// is color (safe)
-// set color (safe)
-//
-//
-
-
 bool isInBounds(QImage* img, int x, int y);
 bool isInBounds(int width, int height, int x, int y);
 

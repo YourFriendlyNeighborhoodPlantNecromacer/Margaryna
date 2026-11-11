@@ -133,7 +133,6 @@ void stamp(unsigned char* ptr, int width, QColor color, int radius, int cx, int 
 }
 
 void stamp(QImage* layer, QColor color, int radius, int cx, int cy){
-    //std::cout << "A" << std::endl;
     for (int y = -radius; y <= radius; y++)for (int x = -radius; x <= radius; x++)if (x*x + y*y <= radius*radius)setColor(color, layer, x+cx, y+cy);
 }
 
@@ -199,7 +198,7 @@ void safeDrawLineBetween(unsigned char* ptr, int width, int height, QColor color
     if(sx == ex && sy == ey)lineType = LINETYPE::POINT;
     else if(sx == ex)       lineType = LINETYPE::VERTICAL;
     else if(sy == ey)       lineType = LINETYPE::HORIZONTAL;
-    else                    lineType = a*a <= 1 ? LINETYPE::FLAT : LINETYPE::STEEP;
+    else                    lineType = a*a <= 1 ? LINETYPE::FLAT : LINETYPE::STEEP;//abs !!
 
     int xIterator = sx;
     int yIterator = sy;
@@ -254,40 +253,26 @@ void floodFill(QImage* layer, QImage* alpha, QColor repaintColor, int sx, int sy
     QColor targetColor = getColor(layer, sx, sy);
     if(targetColor==repaintColor)return;
     std::stack<int> a;
-    std::vector<bool> visited;
-    visited.resize(layer->height()*layer->width());
 
     a.push(layer->width()*sy+sx);
-    visited[a.top()]=true;
 
     int currentNode;
     int x;
     int y;
+    int c=0;
     while(!a.empty()){
+        c++;
         currentNode=a.top();
         x=currentNode%layer->width();
         y=currentNode/layer->width();
         a.pop();
 
-        if(!isInBounds(layer, x, y))continue;
         setColor(repaintColor,alpha,x,y);
 
-        if(x-1>=0)if(!visited[currentNode-1] && getColor(layer,x-1,y)==targetColor){
-                a.push(currentNode-1);
-                visited[a.top()]=true;
-            }
-        if(x+1<layer->width())if(!visited[currentNode+1] && getColor(layer,x+1,y)==targetColor){
-                a.push(currentNode+1);
-                visited[a.top()]=true;
-            }
-        if(y-1>=0)if(!visited[currentNode-layer->width()] && getColor(layer,x,y-1)==targetColor){
-                a.push(currentNode-layer->width());
-                visited[a.top()]=true;
-            }
-        if(y+1<layer->height())if(!visited[currentNode+layer->width()] && getColor(layer,x,y+1)==targetColor){
-                a.push(currentNode+layer->width());
-                visited[a.top()]=true;
-            }
+        if(x-1>=0)if(getColor(alpha, x-1, y)==Qt::transparent)if(getColor(layer,x-1,y)==targetColor) a.push(currentNode-1);
+        if(x+1<layer->width())if(getColor(alpha, x+1, y)==Qt::transparent)if( getColor(layer,x+1,y)==targetColor) a.push(currentNode+1);
+        if(y-1>=0)if(getColor(alpha, x, y-1)==Qt::transparent)if(getColor(layer,x,y-1)==targetColor) a.push(currentNode-layer->width());
+        if(y+1<layer->height())if(getColor(alpha, x, y+1)==Qt::transparent)if(getColor(layer,x,y+1)==targetColor) a.push(currentNode+layer->width());
     }
 }
 

@@ -1,7 +1,7 @@
 #include "LineTool.h"
 #include "tools/ToolFunctions.h"
 #include <QImage>
-#include <iostream>
+//#include <iostream>
 
 LineTool::LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color, int lineWidthRadius) : selectedLayer(img), pendingLayer(pendingLayer), toolPreviewLayer(previewLayer), color(selected_color), radius(lineWidthRadius) {
 }
