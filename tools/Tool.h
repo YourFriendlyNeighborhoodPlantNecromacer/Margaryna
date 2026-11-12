@@ -4,6 +4,38 @@
 #include <QPoint>
 #include <QPainter>
 
+enum TOOLMODE{
+    Unselected,
+    Shape,
+    Draw,
+    Fill,
+    Select,
+    Special
+};
+
+enum TOOL{
+    NotSet,
+    //Shape
+    Line,
+    CurvedLine,
+    CircleOval,
+    SquareRectangle,
+    EqualsidedPolygon,
+    Polygon,
+    //Drawing
+    Pen,
+    Brush,
+    //Fill
+    Bucket,
+    //Select
+    Rectangle,
+    Lasso,
+    MagicWand,
+    //Special
+    Blackhole,
+    Gravity
+};
+
 class Tool{
 public:
 

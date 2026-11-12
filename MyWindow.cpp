@@ -1,5 +1,4 @@
 #include "MyWindow.h"
-#include <iostream>
 #include "tools/ToolFunctions.h"
 #include <QVBoxLayout>
 #include "tools/Tool.h"
@@ -8,8 +7,6 @@
 #include "tools/pen/PenTool.h"
 #include "tools/ToolFunctions.h"
 #include "widgets/AppSettings/AppSettings.h"
-#include "widgets/LabeledSlider/LabeledSlider.h"
-//#include "tools/pen/PenToolSettings.h"
 
 MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
 {
@@ -38,6 +35,7 @@ MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
     //Tools tab
     toolTab = new ToolTab(this);
     toolTab->setGeometry(QRect(startX,0,width-startX,50));
+    connect(toolTab, &ToolTab::toolsetSelected, this, &MyWindow::slot_getTool);
 
     //Tool settigns tab
     toolSettings = new ToolSettings(this);
@@ -61,23 +59,24 @@ void MyWindow::paintEvent(QPaintEvent*){
 
 
 void MyWindow::clean(){
-    for(int y=0; y<height; y++) for(int x=0; x<width; x++) setColor(QColor(255,255,255,255), img->bits(), width, x, y); // BREAD!
+    for(int y=0; y<height; y++) for(int x=0; x<width; x++) setColor(QColor(255,255,255,255), img->bits(), width, x, y);
 }
 
 void MyWindow::mousePressEvent(QMouseEvent *event){
-    if(lastSelectedTool == TOOL::NotSet && !currentTool)return;
-    if(!currentTool)reenableTool();
-    if(currentTool)currentTool->press(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
+    toolCheck();
+    currentTool->press(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
     update();
 }
 
 void MyWindow::mouseMoveEvent(QMouseEvent *event){
-    if(currentTool)currentTool->move(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
+    toolCheck();
+    currentTool->move(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
     update();
 }
 
 void MyWindow::mouseReleaseEvent(QMouseEvent *event){
-    if(currentTool)currentTool->release(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
+    toolCheck();
+    currentTool->release(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
     delete currentTool;
     currentTool = nullptr;
     update();
@@ -85,36 +84,13 @@ void MyWindow::mouseReleaseEvent(QMouseEvent *event){
 
 
 void MyWindow::slot_clean(){
-    std::cout << "slot_clean()" << std::endl;
     clean();
     update();
 }
 
-void MyWindow::slot_shape(){
-    if(currentTool)delete currentTool;
-    currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getColor(), toolSettings->getRadius());
-    lastSelectedTool = TOOL::Line;
-}
-
-void MyWindow::slot_draw(){
-    if(currentTool)delete currentTool;
-    currentTool = new PenTool(img, toolAlphaLayer, toolSettings->getRadius(), toolSettings->getColor());
-    lastSelectedTool = TOOL::Pen;
-}
-
-void MyWindow::slot_fill(){
-    std::cout << "Bucket tool selected" << std::endl;
-    if(currentTool)delete currentTool;
-    currentTool = new FillTool(img, toolAlphaLayer, toolSettings->getColor());
-    lastSelectedTool = TOOL::Bucket;
-}
-
-void MyWindow::slot_select(){
-    //currentTool = new Tool();
-}
-
-void MyWindow::slot_special(){
-    //currentTool = new Tool();
+void MyWindow::slot_getTool(TOOL selectedTool){
+    lastSelectedTool = selectedTool;
+    reenableTool();
 }
 
 void MyWindow::reenableTool(){
@@ -122,4 +98,9 @@ void MyWindow::reenableTool(){
     if(lastSelectedTool==TOOL::Pen)currentTool = new PenTool(img, toolAlphaLayer, toolSettings->getRadius(), toolSettings->getColor());
     if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getColor(), toolSettings->getRadius());
     if(lastSelectedTool==TOOL::Bucket)currentTool = new FillTool(img, toolAlphaLayer, toolSettings->getColor());
+}
+
+void MyWindow::toolCheck(){
+    if(lastSelectedTool==TOOL::NotSet) return;
+    if(!currentTool)reenableTool();
 }

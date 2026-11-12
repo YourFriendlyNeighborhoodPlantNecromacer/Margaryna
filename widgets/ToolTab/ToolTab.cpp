@@ -1,8 +1,6 @@
 #include "ToolTab.h"
 #include <QGroupBox>
 #include <QWidget>
-#include <iostream>
-
 
 ToolTab::ToolTab(QWidget* parent) : QGroupBox(parent){
     toolBoxLayout = new QHBoxLayout;
@@ -11,16 +9,18 @@ ToolTab::ToolTab(QWidget* parent) : QGroupBox(parent){
     fillButton = new QPushButton("Fill");
     selectButton = new QPushButton("Select");
     specialButton = new QPushButton("Special");
+
     toolBoxLayout->addWidget(shapeButton);
     toolBoxLayout->addWidget(drawButton);
     toolBoxLayout->addWidget(fillButton);
     toolBoxLayout->addWidget(selectButton);
     toolBoxLayout->addWidget(specialButton);
-    connect(shapeButton,SIGNAL(clicked()),parent,SLOT(slot_shape()));
-    connect(drawButton,SIGNAL(clicked()),parent,SLOT(slot_draw()));
-    connect(fillButton,SIGNAL(clicked()),parent,SLOT(slot_fill()));
-    connect(selectButton,SIGNAL(clicked()),parent,SLOT(slot_select()));
-    connect(specialButton,SIGNAL(clicked()),parent,SLOT(slot_special()));
-    std::cout << "ABBA" << std::endl;
+
+    //Whoever invented lambdas should be counted as one of the TOOLs
+    connect(shapeButton,&QPushButton::clicked,this,[this](){emit this->toolsetSelected(TOOL::Line);});
+    connect(drawButton,&QPushButton::clicked,this,[this](){emit this->toolsetSelected(TOOL::Pen);});
+    connect(fillButton, &QPushButton::pressed, this, [this](){emit this->toolsetSelected(TOOL::Bucket);});
+    connect(selectButton,&QPushButton::clicked,this,[this](){emit this->toolsetSelected(TOOL::Lasso);});
+    connect(specialButton,&QPushButton::clicked,this,[this](){emit this->toolsetSelected(TOOL::Gravity);});
     setLayout(toolBoxLayout);
 }

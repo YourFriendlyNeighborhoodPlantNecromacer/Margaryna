@@ -427,6 +427,7 @@ moc_ToolSettings.cpp: ../../widgets/ToolSettings/ToolSettings.h \
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/QtFiles/Margaryna/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/QtFiles/Margaryna -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../widgets/ToolSettings/ToolSettings.h -o moc_ToolSettings.cpp
 
 moc_ToolTab.cpp: ../../widgets/ToolTab/ToolTab.h \
+		../../tools/Tool.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/QtFiles/Margaryna/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/QtFiles/Margaryna -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../widgets/ToolTab/ToolTab.h -o moc_ToolTab.cpp
@@ -495,7 +496,8 @@ ToolSettings.o: ../../widgets/ToolSettings/ToolSettings.cpp ../../widgets/ToolSe
 		../../widgets/LabeledSlider/LabeledSlider.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolSettings.o ../../widgets/ToolSettings/ToolSettings.cpp
 
-ToolTab.o: ../../widgets/ToolTab/ToolTab.cpp ../../widgets/ToolTab/ToolTab.h
+ToolTab.o: ../../widgets/ToolTab/ToolTab.cpp ../../widgets/ToolTab/ToolTab.h \
+		../../tools/Tool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolTab.o ../../widgets/ToolTab/ToolTab.cpp
 
 moc_MyWindow.o: moc_MyWindow.cpp 

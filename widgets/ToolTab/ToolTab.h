@@ -5,12 +5,12 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QRect>
+#include "tools/Tool.h"
 
 class ToolTab : public QGroupBox
 {
     Q_OBJECT
 public:
-    QGroupBox* toolBox;
     QHBoxLayout *toolBoxLayout;
     QPushButton *shapeButton;
     QPushButton *drawButton;
@@ -19,6 +19,10 @@ public:
     QPushButton *specialButton;
 
     ToolTab(QWidget* parent=nullptr);
+
+signals:
+    void toolsetSelected(TOOL selectedTool);
 };
+
 
 #endif // TOOLTAB_H

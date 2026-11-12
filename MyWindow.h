@@ -10,39 +10,6 @@
 #include "widgets/AppSettings/AppSettings.h"
 #include "widgets/ToolTab/ToolTab.h"
 #include "widgets/ToolSettings/ToolSettings.h"
-#include "widgets/LabeledSlider/LabeledSlider.h"
-
-enum TOOLMODE{
-    Unselected,
-    Shape,
-    Draw,
-    Fill,
-    Select,
-    Special
-};
-
-enum TOOL{
-    NotSet,
-    //Shape
-    Line,
-    CurvedLine,
-    CircleOval,
-    SquareRectangle,
-    EqualsidedPolygon,
-    Polygon,
-    //Drawing
-    Pen,
-    Brush,
-    //Fill
-    Bucket,
-    //Select
-    Rectangle,
-    Lasso,
-    MagicWand,
-    //Special
-    Blackhole,
-    Gravity
-};
 
 class MyWindow : public QWidget
 {
@@ -77,13 +44,10 @@ private:
     void special(int x, int y);
 
     void toolStateMenager(int x, int y);
+    void toolCheck();
 private slots:
     void slot_clean();
-    void slot_shape();
-    void slot_fill();
-    void slot_draw();
-    void slot_select();
-    void slot_special();
+    void slot_getTool(TOOL selectedTool);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);

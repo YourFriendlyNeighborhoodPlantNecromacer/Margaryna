@@ -18,3 +18,5 @@ AppSettings::AppSettings(QWidget* parent) : QGroupBox("Controls", parent) {
     connect(cleanButton,&QPushButton::clicked,this,&AppSettings::cleanRequested);
     connect(exitButton,&QPushButton::clicked,qApp,&QApplication::quit);
 }
+
+

@@ -46,12 +46,12 @@ void ToolSettings::refreshAll(){
 }
 
 QColor ToolSettings::getColor(){
-    refreshAll();
+    refreshColor();
     return color;
 }
 
 int ToolSettings::getRadius(){
-    refreshAll();
+    refreshRadius();
     return radius;
 }
 
