@@ -1,12 +1,12 @@
-#ifndef FILLTOOL_H
-#define FILLTOOL_H
+#ifndef BUCKETTOOL_H
+#define BUCKETTOOL_H
 
 #include "../Tool.h"
 #include <QImage>
 #include <QColor>
 
 
-class FillTool : public Tool{
+class BucketTool : public Tool{
 public:
     QImage *selectedLayer;
     QImage *pendingLayer;
@@ -15,11 +15,11 @@ public:
     bool isGlobal;
     bool active = false;
 
-    FillTool(QImage* img, QImage* pendingLayer, QColor selected_color = QColor(0, 0, 0), int colorOffsetTolerance=0, bool global=false);
+    BucketTool(QImage* img, QImage* pendingLayer, QColor selected_color = QColor(0, 0, 0), int colorOffsetTolerance=0, bool global=false);
 
     void press(int x, int y) override;
     void move(int x, int y) override;
     void release(int x, int y) override;
     void cancel() override;
 };
-#endif // FILLTOOL_H
+#endif // BUCKETTOOL_H

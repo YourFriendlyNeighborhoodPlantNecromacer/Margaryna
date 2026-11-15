@@ -6,17 +6,19 @@
 #include <QGroupBox>
 #include <QRect>
 #include "tools/Tool.h"
+#include "../ToolsetButton/ToolsetButton.h"
+#include <QMetaEnum>
 
 class ToolTab : public QGroupBox
 {
     Q_OBJECT
 public:
     QHBoxLayout *toolBoxLayout;
-    QPushButton *shapeButton;
-    QPushButton *drawButton;
-    QPushButton *fillButton;
-    QPushButton *selectButton;
-    QPushButton *specialButton;
+    ToolsetButton *shapeButton;
+    ToolsetButton *drawButton;
+    ToolsetButton *fillButton;
+    ToolsetButton *selectButton;
+    ToolsetButton *specialButton;
 
     ToolTab(QWidget* parent=nullptr);
 

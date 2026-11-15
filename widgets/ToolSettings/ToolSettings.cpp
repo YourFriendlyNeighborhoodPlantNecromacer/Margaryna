@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QPainter>
+#include <iostream>
 
 ToolSettings::ToolSettings(QWidget* parent) : QGroupBox("Tool Settings", parent){
     sliderBox = new QHBoxLayout;
@@ -19,6 +21,8 @@ ToolSettings::ToolSettings(QWidget* parent) : QGroupBox("Tool Settings", parent)
     radiousPicker = new LabeledSlider(this);
     radiousPicker->setLabelText("r");
     radiousPicker->changeSliderRange(0, 64);
+
+    //colorPreview = new QImage(32, 32, QImage::Format_ARGB32);
 
     sliderBox->addWidget(colorRedPicker);
     sliderBox->addWidget(colorGreenPicker);
@@ -46,6 +50,13 @@ void ToolSettings::refreshAll(){
 }
 
 QColor ToolSettings::getColor(){
+    /*
+    std::cout << int(colorPreview->bits()[0]) << std::endl;
+    colorPreview->fill(color);
+    QPainter p(this);
+    p.drawImage(32, 32, *colorPreview);
+    std::cout << int(colorPreview->bits()[0]) << std::endl;
+    */
     refreshColor();
     return color;
 }

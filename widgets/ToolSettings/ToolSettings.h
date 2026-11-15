@@ -4,9 +4,10 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QRect>
+#include <QColor>
+#include <QImage>
 #include "../LabeledSlider/LabeledSlider.h"
 
-#include <QColor>
 
 class ToolSettings : public QGroupBox
 {
@@ -17,6 +18,8 @@ private:
     LabeledSlider* colorGreenPicker;
     LabeledSlider* colorBluePicker;
     LabeledSlider* colorAlphaPicker;
+    QImage* colorPreview;
+
     LabeledSlider* radiousPicker;
 
     QColor color;

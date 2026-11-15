@@ -12,25 +12,29 @@ SOURCES += \
     MyWindow.cpp \
     main.cpp \
     tools/ToolFunctions.cpp \
-    tools/fill/FillTool.cpp \
-    tools/line/LineTool.cpp \
-    tools/pen/PenTool.cpp \
+    tools/fill/BucketTool.cpp \
+    tools/shape/CircleOval.cpp \
+    tools/shape/LineTool.cpp \
+    tools/draw/PenTool.cpp \
     widgets/AppSettings/AppSettings.cpp \
     widgets/LabeledSlider/LabeledSlider.cpp \
     widgets/ToolSettings/ToolSettings.cpp \
-    widgets/ToolTab/ToolTab.cpp
+    widgets/ToolTab/ToolTab.cpp \
+    widgets/ToolsetButton/ToolsetButton.cpp
 
 HEADERS += \
     tools/ToolFunctions.h \
     MyWindow.h \
     tools/Tool.h \
-    tools/fill/FillTool.h \
-    tools/line/LineTool.h \
-    tools/pen/PenTool.h \
+    tools/fill/BucketTool.h \
+    tools/shape/CircleOval.h \
+    tools/shape/LineTool.h \
+    tools/draw/PenTool.h \
     widgets/AppSettings/AppSettings.h \
     widgets/LabeledSlider/LabeledSlider.h \
     widgets/ToolSettings/ToolSettings.h \
-    widgets/ToolTab/ToolTab.h
+    widgets/ToolTab/ToolTab.h \
+    widgets/ToolsetButton/ToolsetButton.h
 
 FORMS +=
 

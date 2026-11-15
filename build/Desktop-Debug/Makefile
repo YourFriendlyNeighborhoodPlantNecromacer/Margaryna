@@ -55,32 +55,36 @@ OBJECTS_DIR   = ./
 SOURCES       = ../../MyWindow.cpp \
 		../../main.cpp \
 		../../tools/ToolFunctions.cpp \
-		../../tools/fill/FillTool.cpp \
-		../../tools/line/LineTool.cpp \
-		../../tools/pen/PenTool.cpp \
+		../../tools/fill/BucketTool.cpp \
+		../../tools/shape/LineTool.cpp \
+		../../tools/draw/PenTool.cpp \
 		../../widgets/AppSettings/AppSettings.cpp \
 		../../widgets/LabeledSlider/LabeledSlider.cpp \
 		../../widgets/ToolSettings/ToolSettings.cpp \
-		../../widgets/ToolTab/ToolTab.cpp moc_MyWindow.cpp \
+		../../widgets/ToolTab/ToolTab.cpp \
+		../../widgets/ToolsetButton/ToolsetButton.cpp moc_MyWindow.cpp \
 		moc_AppSettings.cpp \
 		moc_LabeledSlider.cpp \
 		moc_ToolSettings.cpp \
-		moc_ToolTab.cpp
+		moc_ToolTab.cpp \
+		moc_ToolsetButton.cpp
 OBJECTS       = MyWindow.o \
 		main.o \
 		ToolFunctions.o \
-		FillTool.o \
+		BucketTool.o \
 		LineTool.o \
 		PenTool.o \
 		AppSettings.o \
 		LabeledSlider.o \
 		ToolSettings.o \
 		ToolTab.o \
+		ToolsetButton.o \
 		moc_MyWindow.o \
 		moc_AppSettings.o \
 		moc_LabeledSlider.o \
 		moc_ToolSettings.o \
-		moc_ToolTab.o
+		moc_ToolTab.o \
+		moc_ToolsetButton.o
 DIST          = ../../roadmap \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -163,22 +167,24 @@ DIST          = ../../roadmap \
 		../../../../Margaryna.pro ../../tools/ToolFunctions.h \
 		../../MyWindow.h \
 		../../tools/Tool.h \
-		../../tools/fill/FillTool.h \
-		../../tools/line/LineTool.h \
-		../../tools/pen/PenTool.h \
+		../../tools/fill/BucketTool.h \
+		../../tools/shape/LineTool.h \
+		../../tools/draw/PenTool.h \
 		../../widgets/AppSettings/AppSettings.h \
 		../../widgets/LabeledSlider/LabeledSlider.h \
 		../../widgets/ToolSettings/ToolSettings.h \
-		../../widgets/ToolTab/ToolTab.h ../../MyWindow.cpp \
+		../../widgets/ToolTab/ToolTab.h \
+		../../widgets/ToolsetButton/ToolsetButton.h ../../MyWindow.cpp \
 		../../main.cpp \
 		../../tools/ToolFunctions.cpp \
-		../../tools/fill/FillTool.cpp \
-		../../tools/line/LineTool.cpp \
-		../../tools/pen/PenTool.cpp \
+		../../tools/fill/BucketTool.cpp \
+		../../tools/shape/LineTool.cpp \
+		../../tools/draw/PenTool.cpp \
 		../../widgets/AppSettings/AppSettings.cpp \
 		../../widgets/LabeledSlider/LabeledSlider.cpp \
 		../../widgets/ToolSettings/ToolSettings.cpp \
-		../../widgets/ToolTab/ToolTab.cpp
+		../../widgets/ToolTab/ToolTab.cpp \
+		../../widgets/ToolsetButton/ToolsetButton.cpp
 QMAKE_TARGET  = Margaryna
 DESTDIR       = 
 TARGET        = Margaryna
@@ -364,8 +370,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../tools/ToolFunctions.h ../../MyWindow.h ../../tools/Tool.h ../../tools/fill/FillTool.h ../../tools/line/LineTool.h ../../tools/pen/PenTool.h ../../widgets/AppSettings/AppSettings.h ../../widgets/LabeledSlider/LabeledSlider.h ../../widgets/ToolSettings/ToolSettings.h ../../widgets/ToolTab/ToolTab.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../MyWindow.cpp ../../main.cpp ../../tools/ToolFunctions.cpp ../../tools/fill/FillTool.cpp ../../tools/line/LineTool.cpp ../../tools/pen/PenTool.cpp ../../widgets/AppSettings/AppSettings.cpp ../../widgets/LabeledSlider/LabeledSlider.cpp ../../widgets/ToolSettings/ToolSettings.cpp ../../widgets/ToolTab/ToolTab.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../tools/ToolFunctions.h ../../MyWindow.h ../../tools/Tool.h ../../tools/fill/BucketTool.h ../../tools/shape/LineTool.h ../../tools/draw/PenTool.h ../../widgets/AppSettings/AppSettings.h ../../widgets/LabeledSlider/LabeledSlider.h ../../widgets/ToolSettings/ToolSettings.h ../../widgets/ToolTab/ToolTab.h ../../widgets/ToolsetButton/ToolsetButton.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../MyWindow.cpp ../../main.cpp ../../tools/ToolFunctions.cpp ../../tools/fill/BucketTool.cpp ../../tools/shape/LineTool.cpp ../../tools/draw/PenTool.cpp ../../widgets/AppSettings/AppSettings.cpp ../../widgets/LabeledSlider/LabeledSlider.cpp ../../widgets/ToolSettings/ToolSettings.cpp ../../widgets/ToolTab/ToolTab.cpp ../../widgets/ToolsetButton/ToolsetButton.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -397,13 +403,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_MyWindow.cpp moc_AppSettings.cpp moc_LabeledSlider.cpp moc_ToolSettings.cpp moc_ToolTab.cpp
+compiler_moc_header_make_all: moc_MyWindow.cpp moc_AppSettings.cpp moc_LabeledSlider.cpp moc_ToolSettings.cpp moc_ToolTab.cpp moc_ToolsetButton.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_MyWindow.cpp moc_AppSettings.cpp moc_LabeledSlider.cpp moc_ToolSettings.cpp moc_ToolTab.cpp
+	-$(DEL_FILE) moc_MyWindow.cpp moc_AppSettings.cpp moc_LabeledSlider.cpp moc_ToolSettings.cpp moc_ToolTab.cpp moc_ToolsetButton.cpp
 moc_MyWindow.cpp: ../../MyWindow.h \
 		../../tools/Tool.h \
 		../../widgets/AppSettings/AppSettings.h \
 		../../widgets/ToolTab/ToolTab.h \
+		../../widgets/ToolsetButton/ToolsetButton.h \
 		../../widgets/ToolSettings/ToolSettings.h \
 		../../widgets/LabeledSlider/LabeledSlider.h \
 		moc_predefs.h \
@@ -428,9 +435,16 @@ moc_ToolSettings.cpp: ../../widgets/ToolSettings/ToolSettings.h \
 
 moc_ToolTab.cpp: ../../widgets/ToolTab/ToolTab.h \
 		../../tools/Tool.h \
+		../../widgets/ToolsetButton/ToolsetButton.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/QtFiles/Margaryna/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/QtFiles/Margaryna -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../widgets/ToolTab/ToolTab.h -o moc_ToolTab.cpp
+
+moc_ToolsetButton.cpp: ../../widgets/ToolsetButton/ToolsetButton.h \
+		../../tools/Tool.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/QtFiles/Margaryna/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/QtFiles/Margaryna -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../widgets/ToolsetButton/ToolsetButton.h -o moc_ToolsetButton.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -452,18 +466,17 @@ MyWindow.o: ../../MyWindow.cpp ../../MyWindow.h \
 		../../tools/Tool.h \
 		../../widgets/AppSettings/AppSettings.h \
 		../../widgets/ToolTab/ToolTab.h \
+		../../widgets/ToolsetButton/ToolsetButton.h \
 		../../widgets/ToolSettings/ToolSettings.h \
 		../../widgets/LabeledSlider/LabeledSlider.h \
-		../../tools/ToolFunctions.h \
-		../../tools/fill/FillTool.h \
-		../../tools/line/LineTool.h \
-		../../tools/pen/PenTool.h
+		../../tools/ToolFunctions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MyWindow.o ../../MyWindow.cpp
 
 main.o: ../../main.cpp ../../MyWindow.h \
 		../../tools/Tool.h \
 		../../widgets/AppSettings/AppSettings.h \
 		../../widgets/ToolTab/ToolTab.h \
+		../../widgets/ToolsetButton/ToolsetButton.h \
 		../../widgets/ToolSettings/ToolSettings.h \
 		../../widgets/LabeledSlider/LabeledSlider.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
@@ -471,20 +484,18 @@ main.o: ../../main.cpp ../../MyWindow.h \
 ToolFunctions.o: ../../tools/ToolFunctions.cpp ../../tools/ToolFunctions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolFunctions.o ../../tools/ToolFunctions.cpp
 
-FillTool.o: ../../tools/fill/FillTool.cpp ../../tools/fill/FillTool.h \
-		../../tools/Tool.h \
-		../../tools/ToolFunctions.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FillTool.o ../../tools/fill/FillTool.cpp
+BucketTool.o: ../../tools/fill/BucketTool.cpp ../../tools/ToolFunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BucketTool.o ../../tools/fill/BucketTool.cpp
 
-LineTool.o: ../../tools/line/LineTool.cpp ../../tools/line/LineTool.h \
+LineTool.o: ../../tools/shape/LineTool.cpp ../../tools/shape/LineTool.h \
 		../../tools/Tool.h \
 		../../tools/ToolFunctions.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LineTool.o ../../tools/line/LineTool.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LineTool.o ../../tools/shape/LineTool.cpp
 
-PenTool.o: ../../tools/pen/PenTool.cpp ../../tools/pen/PenTool.h \
+PenTool.o: ../../tools/draw/PenTool.cpp ../../tools/draw/PenTool.h \
 		../../tools/Tool.h \
 		../../tools/ToolFunctions.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PenTool.o ../../tools/pen/PenTool.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PenTool.o ../../tools/draw/PenTool.cpp
 
 AppSettings.o: ../../widgets/AppSettings/AppSettings.cpp ../../widgets/AppSettings/AppSettings.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AppSettings.o ../../widgets/AppSettings/AppSettings.cpp
@@ -497,8 +508,13 @@ ToolSettings.o: ../../widgets/ToolSettings/ToolSettings.cpp ../../widgets/ToolSe
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolSettings.o ../../widgets/ToolSettings/ToolSettings.cpp
 
 ToolTab.o: ../../widgets/ToolTab/ToolTab.cpp ../../widgets/ToolTab/ToolTab.h \
-		../../tools/Tool.h
+		../../tools/Tool.h \
+		../../widgets/ToolsetButton/ToolsetButton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolTab.o ../../widgets/ToolTab/ToolTab.cpp
+
+ToolsetButton.o: ../../widgets/ToolsetButton/ToolsetButton.cpp ../../widgets/ToolsetButton/ToolsetButton.h \
+		../../tools/Tool.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolsetButton.o ../../widgets/ToolsetButton/ToolsetButton.cpp
 
 moc_MyWindow.o: moc_MyWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MyWindow.o moc_MyWindow.cpp
@@ -514,6 +530,9 @@ moc_ToolSettings.o: moc_ToolSettings.cpp
 
 moc_ToolTab.o: moc_ToolTab.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ToolTab.o moc_ToolTab.cpp
+
+moc_ToolsetButton.o: moc_ToolsetButton.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ToolsetButton.o moc_ToolsetButton.cpp
 
 ####### Install
 

@@ -43,8 +43,11 @@ private:
     void select(int x, int y);
     void special(int x, int y);
 
+    bool isToolSet();
+    bool wasAnyToolSet();
+
     void toolStateMenager(int x, int y);
-    void toolCheck();
+    bool getTool();
 private slots:
     void slot_clean();
     void slot_getTool(TOOL selectedTool);

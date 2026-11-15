@@ -2,11 +2,13 @@
 #include "tools/ToolFunctions.h"
 #include <QVBoxLayout>
 #include "tools/Tool.h"
-#include "tools/fill/FillTool.h"
-#include "tools/line/LineTool.h"
-#include "tools/pen/PenTool.h"
+#include "tools/fill/BucketTool.h"
+#include "tools/shape/LineTool.h"
+#include "tools/draw/PenTool.h"
 #include "tools/ToolFunctions.h"
 #include "widgets/AppSettings/AppSettings.h"
+#include <QMenu>
+#include <iostream>
 
 MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
 {
@@ -63,19 +65,21 @@ void MyWindow::clean(){
 }
 
 void MyWindow::mousePressEvent(QMouseEvent *event){
-    toolCheck();
+    if(!getTool())return;
+    std::cout << "Click! " << currentTool << std::endl;
     currentTool->press(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
+    std::cout << "Clack!" << std::endl;
     update();
 }
 
 void MyWindow::mouseMoveEvent(QMouseEvent *event){
-    toolCheck();
+    if(!getTool())return;
     currentTool->move(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
     update();
 }
 
 void MyWindow::mouseReleaseEvent(QMouseEvent *event){
-    toolCheck();
+    if(!getTool())return;
     currentTool->release(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
     delete currentTool;
     currentTool = nullptr;
@@ -96,11 +100,21 @@ void MyWindow::slot_getTool(TOOL selectedTool){
 void MyWindow::reenableTool(){
     if(currentTool)delete currentTool;
     if(lastSelectedTool==TOOL::Pen)currentTool = new PenTool(img, toolAlphaLayer, toolSettings->getRadius(), toolSettings->getColor());
-    if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getColor(), toolSettings->getRadius());
-    if(lastSelectedTool==TOOL::Bucket)currentTool = new FillTool(img, toolAlphaLayer, toolSettings->getColor());
+    else if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getColor(), toolSettings->getRadius());
+    else if(lastSelectedTool==TOOL::Bucket)currentTool = new BucketTool(img, toolAlphaLayer, toolSettings->getColor());
 }
 
-void MyWindow::toolCheck(){
-    if(lastSelectedTool==TOOL::NotSet) return;
-    if(!currentTool)reenableTool();
+bool MyWindow::isToolSet(){
+    return currentTool;
+}
+
+bool MyWindow::wasAnyToolSet(){
+    return lastSelectedTool!=TOOL::NotSet;
+}
+
+bool MyWindow::getTool(){
+    if(!wasAnyToolSet()) return false;
+    if(isToolSet()) return true;
+    reenableTool();
+    return true;
 }
