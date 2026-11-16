@@ -41,7 +41,7 @@ MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
 
     //Tool settigns tab
     toolSettings = new ToolSettings(this);
-    toolSettings->setGeometry(QRect(startX+width+startX,startY+100,800-width-2*startX,startY+100));
+    toolSettings->setGeometry(QRect(startX+width+startX,startY+100,800-width-2*startX,startY+400));
 
 }
 
@@ -99,9 +99,11 @@ void MyWindow::slot_getTool(TOOL selectedTool){
 
 void MyWindow::reenableTool(){
     if(currentTool)delete currentTool;
-    if(lastSelectedTool==TOOL::Pen)currentTool = new PenTool(img, toolAlphaLayer, toolSettings->getRadius(), toolSettings->getColor());
-    else if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getColor(), toolSettings->getRadius());
-    else if(lastSelectedTool==TOOL::Bucket)currentTool = new BucketTool(img, toolAlphaLayer, toolSettings->getColor());
+    if(lastSelectedTool==TOOL::Pen){
+        currentTool = new PenTool(img, toolAlphaLayer, toolSettings->getRadius(), toolSettings->getPrimaryColor());
+        toolSettings->showPenSettings();
+    }else if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getPrimaryColor(), toolSettings->getRadius());
+    else if(lastSelectedTool==TOOL::Bucket)currentTool = new BucketTool(img, toolAlphaLayer, toolSettings->getPrimaryColor());
 }
 
 bool MyWindow::isToolSet(){

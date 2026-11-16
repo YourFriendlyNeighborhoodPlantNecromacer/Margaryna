@@ -6,64 +6,129 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QPainter>
-#include <iostream>
+#include <QImage>
+
 
 ToolSettings::ToolSettings(QWidget* parent) : QGroupBox("Tool Settings", parent){
-    sliderBox = new QHBoxLayout;
-    colorRedPicker = new LabeledSlider(this);
-    colorRedPicker->setLabelText("R");
-    colorGreenPicker = new LabeledSlider(this);
-    colorGreenPicker->setLabelText("G");
-    colorBluePicker = new LabeledSlider(this);
-    colorBluePicker->setLabelText("B");
-    colorAlphaPicker = new LabeledSlider(this);
-    colorAlphaPicker->setLabelText("A");
-    radiousPicker = new LabeledSlider(this);
-    radiousPicker->setLabelText("r");
-    radiousPicker->changeSliderRange(0, 64);
+    masterBox = new QVBoxLayout;
 
-    //colorPreview = new QImage(32, 32, QImage::Format_ARGB32);
 
-    sliderBox->addWidget(colorRedPicker);
-    sliderBox->addWidget(colorGreenPicker);
-    sliderBox->addWidget(colorBluePicker);
-    sliderBox->addWidget(colorAlphaPicker);
-    sliderBox->addWidget(radiousPicker);
 
-    setLayout(sliderBox);
+    primaryColorWidget = new QWidget;
+    primaryColorSliderBoxLayout = new QHBoxLayout;
+    primaryColorPreview = new QLabel(primaryColorWidget);// = new QImage(32, 32, QImage::Format_ARGB32);//change to label, gooberboy
+    primaryColorRedPicker = new LabeledSlider(primaryColorWidget);
+    primaryColorRedPicker->setLabelText("R");
+    primaryColorGreenPicker = new LabeledSlider(primaryColorWidget);
+    primaryColorGreenPicker->setLabelText("G");
+    primaryColorBluePicker = new LabeledSlider(primaryColorWidget);
+    primaryColorBluePicker->setLabelText("B");
+    primaryColorAlphaPicker = new LabeledSlider(primaryColorWidget);
+    primaryColorAlphaPicker->setLabelText("A");
+
+    primaryColorSliderBoxLayout->addWidget(primaryColorRedPicker);
+    primaryColorSliderBoxLayout->addWidget(primaryColorGreenPicker);
+    primaryColorSliderBoxLayout->addWidget(primaryColorBluePicker);
+    primaryColorSliderBoxLayout->addWidget(primaryColorAlphaPicker);
+    primaryColorWidget->setLayout(primaryColorSliderBoxLayout);
+
+
+    secondaryColorWidget = new QWidget;
+    secondaryColorSliderBoxLayout = new QHBoxLayout;
+    secondaryColorPreview = new QLabel(secondaryColorWidget);
+    secondaryColorRedPicker = new LabeledSlider(secondaryColorWidget);
+    secondaryColorRedPicker->setLabelText("R");
+    secondaryColorGreenPicker = new LabeledSlider(secondaryColorWidget);
+    secondaryColorGreenPicker->setLabelText("G");
+    secondaryColorBluePicker = new LabeledSlider(secondaryColorWidget);
+    secondaryColorBluePicker->setLabelText("B");
+    secondaryColorAlphaPicker = new LabeledSlider(secondaryColorWidget);
+    secondaryColorAlphaPicker->setLabelText("A");
+
+    secondaryColorSliderBoxLayout->addWidget(secondaryColorRedPicker);
+    secondaryColorSliderBoxLayout->addWidget(secondaryColorGreenPicker);
+    secondaryColorSliderBoxLayout->addWidget(secondaryColorBluePicker);
+    secondaryColorSliderBoxLayout->addWidget(secondaryColorAlphaPicker);
+    secondaryColorWidget->setLayout(secondaryColorSliderBoxLayout);
+
+
+
+    radiusWidget = new QWidget;
+    radiusSliderBoxLayout = new QHBoxLayout;
+    radiusPicker = new LabeledSlider(radiusWidget);
+    radiusPicker->setLabelText("r");
+    radiusPicker->changeSliderRange(0, 64);
+
+    radiusSliderBoxLayout->addWidget(radiusPicker);
+    radiusWidget->setLayout(radiusSliderBoxLayout);
+
+
+    fillWidget = new QWidget;
+    fillModesBoxLayout = new QVBoxLayout(fillWidget);
+    isGlobal = new QCheckBox(fillWidget);
+
+    fillModesBoxLayout->addWidget(isGlobal);
+    fillWidget->setLayout(fillModesBoxLayout);
+
+
+    polygonModeWidget = new QWidget;
+    polygonModeBoxLayout = new QVBoxLayout(polygonModeWidget);
+    fillPolygon = new QCheckBox(polygonModeWidget);
+    showFinishPolygonLinePreview = new QCheckBox(polygonModeWidget);
+    showFinishPolygonFillPreview = new QCheckBox(polygonModeWidget);
+
+    polygonModeBoxLayout->addWidget(fillPolygon);
+    polygonModeBoxLayout->addWidget(showFinishPolygonLinePreview);
+    polygonModeBoxLayout->addWidget(showFinishPolygonFillPreview);
+    polygonModeWidget->setLayout(polygonModeBoxLayout);
+
+
+
+    shapeModeWidget = new QWidget;
+    shapeModeBoxLayout = new QVBoxLayout(shapeModeWidget);
+    fillShape = new QCheckBox(shapeModeWidget);
+
+    showFinishShapeFillPreview = new QCheckBox(shapeModeWidget);
+    shapeModeWidget->setLayout(shapeModeBoxLayout);
+
+
+
+    masterBox->addWidget(primaryColorWidget);
+    masterBox->addWidget(secondaryColorWidget);
+    masterBox->addWidget(radiusWidget);
+    masterBox->addWidget(fillWidget);
+    masterBox->addWidget(polygonModeWidget);
+    masterBox->addWidget(shapeModeWidget);
+
+    setLayout(masterBox);
+    hideAllWidgets();
 }
 
-void ToolSettings::refreshColor(){
-    color.setRed(colorRedPicker->getSliderValue());
-    color.setGreen(colorGreenPicker->getSliderValue());
-    color.setBlue(colorBluePicker->getSliderValue());
-    color.setAlpha(colorAlphaPicker->getSliderValue());
+QColor ToolSettings::getPrimaryColor(){
+    return QColor(primaryColorRedPicker->getSliderValue(), primaryColorGreenPicker->getSliderValue(), primaryColorBluePicker->getSliderValue(), primaryColorAlphaPicker->getSliderValue());
 }
 
-void ToolSettings::refreshRadius(){
-    radius = radiousPicker->getSliderValue();
-}
-
-void ToolSettings::refreshAll(){
-    refreshColor();
-    refreshRadius();
-}
-
-QColor ToolSettings::getColor(){
-    /*
-    std::cout << int(colorPreview->bits()[0]) << std::endl;
-    colorPreview->fill(color);
-    QPainter p(this);
-    p.drawImage(32, 32, *colorPreview);
-    std::cout << int(colorPreview->bits()[0]) << std::endl;
-    */
-    refreshColor();
-    return color;
+QColor ToolSettings::getSecondaryColor(){
+    return QColor(secondaryColorRedPicker->getSliderValue(), secondaryColorGreenPicker->getSliderValue(), secondaryColorBluePicker->getSliderValue(), secondaryColorAlphaPicker->getSliderValue());
 }
 
 int ToolSettings::getRadius(){
-    refreshRadius();
-    return radius;
+    return radiusPicker->getSliderValue();
 }
+
+void ToolSettings::hideAllWidgets(){
+    primaryColorWidget->hide();
+    secondaryColorWidget->hide();
+    radiusWidget->hide();
+    fillWidget->hide();
+    polygonModeWidget->hide();
+    shapeModeWidget->hide();
+}
+
+void ToolSettings::showPenSettings(){
+    primaryColorWidget->show();
+    radiusWidget->show();
+}
+
 
 //...

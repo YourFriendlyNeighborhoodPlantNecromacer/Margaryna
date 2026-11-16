@@ -56,6 +56,7 @@ SOURCES       = ../../MyWindow.cpp \
 		../../main.cpp \
 		../../tools/ToolFunctions.cpp \
 		../../tools/fill/BucketTool.cpp \
+		../../tools/shape/CircleOval.cpp \
 		../../tools/shape/LineTool.cpp \
 		../../tools/draw/PenTool.cpp \
 		../../widgets/AppSettings/AppSettings.cpp \
@@ -72,6 +73,7 @@ OBJECTS       = MyWindow.o \
 		main.o \
 		ToolFunctions.o \
 		BucketTool.o \
+		CircleOval.o \
 		LineTool.o \
 		PenTool.o \
 		AppSettings.o \
@@ -168,6 +170,7 @@ DIST          = ../../roadmap \
 		../../MyWindow.h \
 		../../tools/Tool.h \
 		../../tools/fill/BucketTool.h \
+		../../tools/shape/CircleOval.h \
 		../../tools/shape/LineTool.h \
 		../../tools/draw/PenTool.h \
 		../../widgets/AppSettings/AppSettings.h \
@@ -178,6 +181,7 @@ DIST          = ../../roadmap \
 		../../main.cpp \
 		../../tools/ToolFunctions.cpp \
 		../../tools/fill/BucketTool.cpp \
+		../../tools/shape/CircleOval.cpp \
 		../../tools/shape/LineTool.cpp \
 		../../tools/draw/PenTool.cpp \
 		../../widgets/AppSettings/AppSettings.cpp \
@@ -370,8 +374,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../tools/ToolFunctions.h ../../MyWindow.h ../../tools/Tool.h ../../tools/fill/BucketTool.h ../../tools/shape/LineTool.h ../../tools/draw/PenTool.h ../../widgets/AppSettings/AppSettings.h ../../widgets/LabeledSlider/LabeledSlider.h ../../widgets/ToolSettings/ToolSettings.h ../../widgets/ToolTab/ToolTab.h ../../widgets/ToolsetButton/ToolsetButton.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../MyWindow.cpp ../../main.cpp ../../tools/ToolFunctions.cpp ../../tools/fill/BucketTool.cpp ../../tools/shape/LineTool.cpp ../../tools/draw/PenTool.cpp ../../widgets/AppSettings/AppSettings.cpp ../../widgets/LabeledSlider/LabeledSlider.cpp ../../widgets/ToolSettings/ToolSettings.cpp ../../widgets/ToolTab/ToolTab.cpp ../../widgets/ToolsetButton/ToolsetButton.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../tools/ToolFunctions.h ../../MyWindow.h ../../tools/Tool.h ../../tools/fill/BucketTool.h ../../tools/shape/CircleOval.h ../../tools/shape/LineTool.h ../../tools/draw/PenTool.h ../../widgets/AppSettings/AppSettings.h ../../widgets/LabeledSlider/LabeledSlider.h ../../widgets/ToolSettings/ToolSettings.h ../../widgets/ToolTab/ToolTab.h ../../widgets/ToolsetButton/ToolsetButton.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../MyWindow.cpp ../../main.cpp ../../tools/ToolFunctions.cpp ../../tools/fill/BucketTool.cpp ../../tools/shape/CircleOval.cpp ../../tools/shape/LineTool.cpp ../../tools/draw/PenTool.cpp ../../widgets/AppSettings/AppSettings.cpp ../../widgets/LabeledSlider/LabeledSlider.cpp ../../widgets/ToolSettings/ToolSettings.cpp ../../widgets/ToolTab/ToolTab.cpp ../../widgets/ToolsetButton/ToolsetButton.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -469,7 +473,10 @@ MyWindow.o: ../../MyWindow.cpp ../../MyWindow.h \
 		../../widgets/ToolsetButton/ToolsetButton.h \
 		../../widgets/ToolSettings/ToolSettings.h \
 		../../widgets/LabeledSlider/LabeledSlider.h \
-		../../tools/ToolFunctions.h
+		../../tools/ToolFunctions.h \
+		../../tools/fill/BucketTool.h \
+		../../tools/shape/LineTool.h \
+		../../tools/draw/PenTool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MyWindow.o ../../MyWindow.cpp
 
 main.o: ../../main.cpp ../../MyWindow.h \
@@ -484,8 +491,14 @@ main.o: ../../main.cpp ../../MyWindow.h \
 ToolFunctions.o: ../../tools/ToolFunctions.cpp ../../tools/ToolFunctions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ToolFunctions.o ../../tools/ToolFunctions.cpp
 
-BucketTool.o: ../../tools/fill/BucketTool.cpp ../../tools/ToolFunctions.h
+BucketTool.o: ../../tools/fill/BucketTool.cpp ../../tools/fill/BucketTool.h \
+		../../tools/Tool.h \
+		../../tools/ToolFunctions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BucketTool.o ../../tools/fill/BucketTool.cpp
+
+CircleOval.o: ../../tools/shape/CircleOval.cpp ../../tools/shape/CircleOval.h \
+		../../tools/Tool.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CircleOval.o ../../tools/shape/CircleOval.cpp
 
 LineTool.o: ../../tools/shape/LineTool.cpp ../../tools/shape/LineTool.h \
 		../../tools/Tool.h \
