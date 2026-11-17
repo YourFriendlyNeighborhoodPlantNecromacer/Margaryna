@@ -4,7 +4,7 @@
 #include <iostream>
 //#include <iostream>
 
-LineTool::LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color, int lineWidthRadius) : selectedLayer(img), pendingLayer(pendingLayer), toolPreviewLayer(previewLayer), color(selected_color), radius(lineWidthRadius) {
+LineTool::LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color, int lineThickness) : selectedLayer(img), pendingLayer(pendingLayer), toolPreviewLayer(previewLayer), color(selected_color), lineThickness(lineThickness) {
 }
 
 void LineTool::press(int x, int y, bool alternative){
@@ -14,7 +14,7 @@ void LineTool::press(int x, int y, bool alternative){
     startingY = y;
     endingY = y;
     toolPreviewLayer->fill(Qt::transparent);
-    safeDrawLineBetween(toolPreviewLayer, color, radius, startingX, startingY, endingX, endingY);
+    safeDrawLineBetween(toolPreviewLayer, color, lineThickness, startingX, startingY, endingX, endingY);
 }
 
 void LineTool::move(int x, int y, bool alternative){
@@ -22,7 +22,7 @@ void LineTool::move(int x, int y, bool alternative){
     endingX = x;
     endingY = y;
     toolPreviewLayer->fill(Qt::transparent);
-    safeDrawLineBetween(toolPreviewLayer, color, radius, startingX, startingY, endingX, endingY);
+    safeDrawLineBetween(toolPreviewLayer, color, lineThickness, startingX, startingY, endingX, endingY);
 }
 
 void LineTool::release(int x, int y, bool alternative){
@@ -30,7 +30,7 @@ void LineTool::release(int x, int y, bool alternative){
     endingX = x;
     endingY = y;
     toolPreviewLayer->fill(Qt::transparent);
-    safeDrawLineBetween(pendingLayer, color, radius, startingX, startingY, endingX, endingY);
+    safeDrawLineBetween(pendingLayer, color, lineThickness, startingX, startingY, endingX, endingY);
     applyLayer(selectedLayer, pendingLayer);
     pendingLayer->fill(Qt::transparent);
 }

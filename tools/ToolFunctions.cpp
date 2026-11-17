@@ -310,11 +310,24 @@ double getDistanceSquared(int Ax, int Ay, int Bx, int By){
 }
 
 void drawCircle(QImage* currentLayer, QColor color, int cx, int cy, double radius, int thickness){
+    if(!isInBounds(currentLayer, cx, cy))return;
     double PI = 3.14;
     if(radius==0)safeStamp(currentLayer, color, thickness, cx, cy);
-    for(int x=-radius; x<radius; x++){
-        safeStamp(currentLayer, color, thickness, int(sin(x/(radius)*PI)*radius)+cx, int(cos(x/(radius)*PI)*radius)+cy);
-        safeStamp(currentLayer, color, thickness, int(cos(x/(radius)*PI)*radius)+cx, int(sin(x/(radius)*PI)*radius)+cy);
+    int stampX1;
+    int stampX2;
+    int stampY;
+    std::cout << radius << std::endl;
+    for(int x=0; x<radius; x++){
+        stampX1=round(sin(x/(radius)*PI)*radius)+cx;
+        stampX2=round(sin(-x/(radius)*PI)*radius)+cx;
+        stampY=round(cos(x/(radius)*PI)*radius)+cy;
+
+        safeStamp(currentLayer, color, thickness, stampX1, stampY); //
+        safeStamp(currentLayer, color, thickness, stampX2, stampY);
+        //safeStamp(currentLayer, color, thickness, round(sin(-x/(radius)*PI)*radius)+cx, round(cos(x/(radius)*PI)*radius)+cy);  // Bottom left
+        //safeStamp(currentLayer, color, thickness, round(sin(x/(radius)*PI)*radius)+cx, -round(cos(x/(radius)*PI)*radius)+cy);
+        //safeStamp(currentLayer, color, thickness, round(sin(-x/(radius)*PI)*radius)+cx, -round(cos(x/(radius)*PI)*radius)+cy);
+
         //replace with 4 sets of 2 functions
     }
 }

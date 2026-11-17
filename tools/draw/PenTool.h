@@ -11,12 +11,12 @@ public:
     QImage* selectedLayer;
     QImage* pendingLayer;
     QColor color;
-    int radius;
+    int penThickness;
     bool active = false;
     int lastX;
     int lastY;
 
-    PenTool(QImage* img, QImage* pendingLayer, int penRadius = 3, QColor selected_color = QColor(0,0,0,255));
+    PenTool(QImage* img, QImage* pendingLayer, int penThickness = 3, QColor selected_color = QColor(0,0,0,255));
 
     void press(int x, int y, bool alternative) override;
     void move(int x, int y, bool alternative) override;

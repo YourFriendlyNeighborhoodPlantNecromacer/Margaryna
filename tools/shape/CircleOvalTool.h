@@ -12,14 +12,14 @@ public:
     QColor primaryColor;
     QColor secondaryColor;
     bool active = false;
-    int lineRadius;
+    int lineThickness;
     int cricleRadius;
     int startingX;
     int startingY;
     int endingX;
     int endingY;
 
-    CircleOvalTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor primaryColor, QColor secondaryColor, int lineWidthRadius = 3);
+    CircleOvalTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor primaryColor, QColor secondaryColor, int lineThickness = 3);
 
     void press(int x, int y, bool alternative) override;
     void move(int x, int y, bool alternative) override;

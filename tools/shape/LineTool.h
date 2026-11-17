@@ -11,7 +11,7 @@ public:
     QImage* toolPreviewLayer;
     QColor color;
     bool active = false;
-    int radius;
+    int lineThickness;
     int startingX;
     int startingY;
     int endingX;

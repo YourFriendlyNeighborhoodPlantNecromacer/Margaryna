@@ -4,7 +4,7 @@
 #include "../ToolFunctions.h"
 //#include <iostream>
 
-PenTool::PenTool(QImage* img, QImage* pendingLayer, int penRadius, QColor selected_color) : selectedLayer(img), pendingLayer(pendingLayer), color(selected_color), radius(penRadius) {
+PenTool::PenTool(QImage* img, QImage* pendingLayer, int penThickness, QColor selected_color) : selectedLayer(img), pendingLayer(pendingLayer), color(selected_color), penThickness(penThickness) {
     active = false;
 }
 
@@ -12,18 +12,18 @@ void PenTool::press(int x, int y, bool alternative){
     active = true;
     lastX = x;
     lastY = y;
-    safeStamp(pendingLayer, color, radius, x, y);
+    safeStamp(pendingLayer, color, penThickness, x, y);
 }
 
 void PenTool::move(int x, int y, bool alternative){
     if (!active) return;
-    safeDrawLineBetween(pendingLayer, color, radius, x, y, lastX, lastY);
+    safeDrawLineBetween(pendingLayer, color, penThickness, x, y, lastX, lastY);
     lastX = x;
     lastY = y;
 }
 
 void PenTool::release(int x, int y, bool alternative){
-    safeDrawLineBetween(pendingLayer, color, radius, x, y, lastX, lastY);
+    safeDrawLineBetween(pendingLayer, color, penThickness, x, y, lastX, lastY);
     applyLayer(selectedLayer, pendingLayer);
     pendingLayer->fill(Qt::transparent);
     active = false;
