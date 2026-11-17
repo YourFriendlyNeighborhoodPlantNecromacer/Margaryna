@@ -19,9 +19,9 @@ public:
 
     LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color = QColor(0, 0, 0), int lineWidthRadius = 3);
 
-    void press(int x, int y) override;
-    void move(int x, int y) override;
-    void release(int x, int y) override;
+    void press(int x, int y, bool alternative) override;
+    void move(int x, int y, bool alternative) override;
+    void release(int x, int y, bool alternative) override;
     void cancel() override;
 };
 #endif // LINETOOL_H

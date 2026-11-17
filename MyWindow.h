@@ -49,12 +49,15 @@ private:
     void toolStateMenager(int x, int y);
     bool getTool();
 private slots:
+    void paintEvent(QPaintEvent*) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
     void slot_clean();
     void slot_getTool(TOOL selectedTool);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void paintEvent(QPaintEvent*);
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void reenableTool();
+
 };
 

@@ -13,7 +13,7 @@ SOURCES += \
     main.cpp \
     tools/ToolFunctions.cpp \
     tools/fill/BucketTool.cpp \
-    tools/shape/CircleOval.cpp \
+    tools/shape/CircleOvalTool.cpp \
     tools/shape/LineTool.cpp \
     tools/draw/PenTool.cpp \
     widgets/AppSettings/AppSettings.cpp \
@@ -27,7 +27,7 @@ HEADERS += \
     MyWindow.h \
     tools/Tool.h \
     tools/fill/BucketTool.h \
-    tools/shape/CircleOval.h \
+    tools/shape/CircleOvalTool.h \
     tools/shape/LineTool.h \
     tools/draw/PenTool.h \
     widgets/AppSettings/AppSettings.h \

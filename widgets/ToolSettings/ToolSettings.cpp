@@ -65,9 +65,9 @@ ToolSettings::ToolSettings(QWidget* parent) : QGroupBox("Tool Settings", parent)
 
     fillWidget = new QWidget;
     fillModesBoxLayout = new QVBoxLayout(fillWidget);
-    isGlobal = new QCheckBox(fillWidget);
+    isFillGlobal = new QCheckBox(fillWidget);
 
-    fillModesBoxLayout->addWidget(isGlobal);
+    fillModesBoxLayout->addWidget(isFillGlobal);
     fillWidget->setLayout(fillModesBoxLayout);
 
 
@@ -116,6 +116,10 @@ int ToolSettings::getRadius(){
     return radiusPicker->getSliderValue();
 }
 
+bool ToolSettings::getIsBucketGlobal(){
+    return isFillGlobal->isChecked();
+}
+
 void ToolSettings::hideAllWidgets(){
     primaryColorWidget->hide();
     secondaryColorWidget->hide();
@@ -126,7 +130,27 @@ void ToolSettings::hideAllWidgets(){
 }
 
 void ToolSettings::showPenSettings(){
+    hideAllWidgets();
     primaryColorWidget->show();
+    radiusWidget->show();
+}
+
+void ToolSettings::showLineSettings(){
+    hideAllWidgets();
+    primaryColorWidget->show();
+    radiusWidget->show();
+}
+
+void ToolSettings::showBucketSettings(){
+    hideAllWidgets();
+    primaryColorWidget->show();
+    fillWidget->show();
+}
+
+void ToolSettings::showCircleOvalSettings(){
+    hideAllWidgets();
+    primaryColorWidget->show();
+    secondaryColorWidget->show();
     radiusWidget->show();
 }
 

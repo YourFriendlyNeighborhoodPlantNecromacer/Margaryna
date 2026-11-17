@@ -1,12 +1,13 @@
 #include "LineTool.h"
 #include "tools/ToolFunctions.h"
 #include <QImage>
+#include <iostream>
 //#include <iostream>
 
 LineTool::LineTool(QImage* img, QImage* pendingLayer, QImage* previewLayer, QColor selected_color, int lineWidthRadius) : selectedLayer(img), pendingLayer(pendingLayer), toolPreviewLayer(previewLayer), color(selected_color), radius(lineWidthRadius) {
 }
 
-void LineTool::press(int x, int y){
+void LineTool::press(int x, int y, bool alternative){
     active = true;
     startingX = x;
     endingX = x;
@@ -16,7 +17,7 @@ void LineTool::press(int x, int y){
     safeDrawLineBetween(toolPreviewLayer, color, radius, startingX, startingY, endingX, endingY);
 }
 
-void LineTool::move(int x, int y){
+void LineTool::move(int x, int y, bool alternative){
     if (!active) return;
     endingX = x;
     endingY = y;
@@ -24,7 +25,7 @@ void LineTool::move(int x, int y){
     safeDrawLineBetween(toolPreviewLayer, color, radius, startingX, startingY, endingX, endingY);
 }
 
-void LineTool::release(int x, int y){
+void LineTool::release(int x, int y, bool alternative){
     active = false;
     endingX = x;
     endingY = y;
@@ -35,5 +36,6 @@ void LineTool::release(int x, int y){
 }
 
 void LineTool::cancel(){
+    std::cout << "ESHKERE" << std::endl;
     active = false;
 }

@@ -15,11 +15,11 @@ public:
     bool isGlobal;
     bool active = false;
 
-    BucketTool(QImage* img, QImage* pendingLayer, QColor selected_color = QColor(0, 0, 0), int colorOffsetTolerance=0, bool global=false);
+    BucketTool(QImage* img, QImage* pendingLayer, QColor selected_color = QColor(0, 0, 0), bool isGlobal = false, int colorOffsetTolerance=0);
 
-    void press(int x, int y) override;
-    void move(int x, int y) override;
-    void release(int x, int y) override;
+    void press(int x, int y, bool alternative) override;
+    void move(int x, int y, bool alternative) override;
+    void release(int x, int y, bool alternative) override;
     void cancel() override;
 };
 #endif // BUCKETTOOL_H

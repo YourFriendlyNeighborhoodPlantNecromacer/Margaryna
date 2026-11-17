@@ -8,21 +8,21 @@ PenTool::PenTool(QImage* img, QImage* pendingLayer, int penRadius, QColor select
     active = false;
 }
 
-void PenTool::press(int x, int y){
+void PenTool::press(int x, int y, bool alternative){
     active = true;
     lastX = x;
     lastY = y;
     safeStamp(pendingLayer, color, radius, x, y);
 }
 
-void PenTool::move(int x, int y){
+void PenTool::move(int x, int y, bool alternative){
     if (!active) return;
     safeDrawLineBetween(pendingLayer, color, radius, x, y, lastX, lastY);
     lastX = x;
     lastY = y;
 }
 
-void PenTool::release(int x, int y){
+void PenTool::release(int x, int y, bool alternative){
     safeDrawLineBetween(pendingLayer, color, radius, x, y, lastX, lastY);
     applyLayer(selectedLayer, pendingLayer);
     pendingLayer->fill(Qt::transparent);

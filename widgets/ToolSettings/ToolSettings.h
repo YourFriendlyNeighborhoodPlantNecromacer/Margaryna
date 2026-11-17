@@ -38,7 +38,7 @@ private:
 
     QWidget* fillWidget;
     QVBoxLayout* fillModesBoxLayout;
-    QCheckBox* isGlobal;
+    QCheckBox* isFillGlobal;
 
     QWidget* polygonModeWidget;
     QVBoxLayout* polygonModeBoxLayout;
@@ -56,6 +56,7 @@ public:
     QColor getPrimaryColor();
     QColor getSecondaryColor();
     int getRadius();
+    bool getIsBucketGlobal();
 
     void showColorSliders();
     void showRadiuSlider();
@@ -65,6 +66,7 @@ public:
     void showPenSettings();
     void showLineSettings();
     void showBucketSettings();
+    void showCircleOvalSettings();
 };
 
 #endif // TOOLSETTINGS_H

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stack>
 
+#include <math.h> //yuck
+
 // is pixel in bounds
 // is area (circle) in bounds
 // is area (box) in bounds
@@ -244,7 +246,7 @@ double argumentForValue(double a, double b, int y){
 
 
 void globalFloodFill(QImage* currentLayer, QImage* pendingLayer, QColor repaintColor, int sx, int sy, int tolerance){
-    QColor targetColor = getColor(currentLayer, 0, 0);
+    QColor targetColor = getColor(currentLayer, sx, sy);
     for(int y=0; y<currentLayer->height();y++)for(int x=0; x<currentLayer->width();x++)
             if(getColor(currentLayer, x, y) == targetColor)setColor(repaintColor, pendingLayer, x, y);
 }
@@ -299,7 +301,23 @@ void applyLayer(QImage* currentLayer, QImage* pendingLayer){
     }
 }
 
+double getDistance(int Ax, int Ay, int Bx, int By){
+    return pow((Ax-Bx)*(Ax-Bx)+(Ay-By)*(Ay-By),0.5);
+}
 
+double getDistanceSquared(int Ax, int Ay, int Bx, int By){
+    return (Ax-Bx)*(Ax-Bx)+(Ay-By)*(Ay-By);
+}
+
+void drawCircle(QImage* currentLayer, QColor color, int cx, int cy, double radius, int thickness){
+    double PI = 3.14;
+    if(radius==0)safeStamp(currentLayer, color, thickness, cx, cy);
+    for(int x=-radius; x<radius; x++){
+        safeStamp(currentLayer, color, thickness, int(sin(x/(radius)*PI)*radius)+cx, int(cos(x/(radius)*PI)*radius)+cy);
+        safeStamp(currentLayer, color, thickness, int(cos(x/(radius)*PI)*radius)+cx, int(sin(x/(radius)*PI)*radius)+cy);
+        //replace with 4 sets of 2 functions
+    }
+}
 
 
 void LineTypeDebug(LINETYPE t){

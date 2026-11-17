@@ -61,6 +61,11 @@ void floodFill(QImage* layer, QImage* transLayer, QColor repaintColor, int sx, i
 
 int cursorOffset(int offset, int coordinate);
 
+double getDistance(int Ax, int Ay, int Bx, int By);
+double getDistanceSquared(int Ax, int Ay, int Bx, int By);
+
+void drawCircle(QImage* currentLayer, QColor color, int cx, int cy, double radius, int thickness);
+
 void applyLayer(QImage* paintedLayer, QImage* sourcesLayer);
 
 void LineTypeDebug(LINETYPE t);

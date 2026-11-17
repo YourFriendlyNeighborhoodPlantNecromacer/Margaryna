@@ -6,6 +6,7 @@
 #include "tools/shape/LineTool.h"
 #include "tools/draw/PenTool.h"
 #include "tools/ToolFunctions.h"
+#include "tools/shape/CircleOvalTool.h"
 #include "widgets/AppSettings/AppSettings.h"
 #include <QMenu>
 #include <iostream>
@@ -59,6 +60,17 @@ void MyWindow::paintEvent(QPaintEvent*){
     p.drawImage(startX,startY,*toolPreviewLayer);
 }
 
+void MyWindow::keyPressEvent(QKeyEvent *event){
+    if(event->key()==Qt::Key_Escape){
+        if(!currentTool)return;
+        currentTool->cancel();
+    }
+};
+
+void MyWindow::keyReleaseEvent(QKeyEvent *event){
+
+};
+
 
 void MyWindow::clean(){
     for(int y=0; y<height; y++) for(int x=0; x<width; x++) setColor(QColor(255,255,255,255), img->bits(), width, x, y);
@@ -74,7 +86,7 @@ void MyWindow::mousePressEvent(QMouseEvent *event){
 
 void MyWindow::mouseMoveEvent(QMouseEvent *event){
     if(!getTool())return;
-    currentTool->move(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()));
+    currentTool->move(cursorOffset(-startX, event->x()), cursorOffset(-startY, event->y()), event->modifiers());
     update();
 }
 
@@ -102,8 +114,16 @@ void MyWindow::reenableTool(){
     if(lastSelectedTool==TOOL::Pen){
         currentTool = new PenTool(img, toolAlphaLayer, toolSettings->getRadius(), toolSettings->getPrimaryColor());
         toolSettings->showPenSettings();
-    }else if(lastSelectedTool==TOOL::Line)currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getPrimaryColor(), toolSettings->getRadius());
-    else if(lastSelectedTool==TOOL::Bucket)currentTool = new BucketTool(img, toolAlphaLayer, toolSettings->getPrimaryColor());
+    }else if(lastSelectedTool==TOOL::Line){
+        currentTool = new LineTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getPrimaryColor(), toolSettings->getRadius());
+        toolSettings->showLineSettings();
+    }else if(lastSelectedTool==TOOL::Bucket){
+        currentTool = new BucketTool(img, toolAlphaLayer, toolSettings->getPrimaryColor(), toolSettings->getIsBucketGlobal());
+        toolSettings->showBucketSettings();
+    }else if(lastSelectedTool==TOOL::CircleOval){
+        currentTool = new CircleOvalTool(img, toolAlphaLayer, toolPreviewLayer, toolSettings->getPrimaryColor(), toolSettings->getSecondaryColor(), toolSettings->getRadius());
+        toolSettings->showCircleOvalSettings();
+    }
 }
 
 bool MyWindow::isToolSet(){
